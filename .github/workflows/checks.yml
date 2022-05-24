@@ -1,17 +1,17 @@
+name: Cypress Tests
+
 on: [push]
-name: Code analysis
 
 jobs:
-  test:
-    runs-on: ubuntu-18.04
-    name: check tests
+  cypress-run:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - uses: testomatio/check-tests@stable
-      with:
-        framework: cypress
-        tests: "./cypress/integration/**/**.spec.js"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        has-tests-label: true
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm start
